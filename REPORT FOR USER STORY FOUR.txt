@@ -1,0 +1,63 @@
+REPORT FOR USER STORY FOUR
+
+1. Executive Summary
+An investigation was conducted on the Google Play Store dataset to quantify app adoption patterns, identify tier boundaries, and map category dominance across growth stages.
+
+Key Takeaway: The Play Store exhibits a sharp bimodal distribution. Only 37.5% of apps break past the 1,000,000 install threshold, which serves as the core tipping point separating niche products from mainstream commercial hits.
+
+Top Performers: GAME and FAMILY categories control volume in mid-to-high tiers (1M–10M), but utility and network categories (COMMUNICATION, TOOLS, SOCIAL) monopolize the hyper-scale tier (100M+).
+
+2. Data Cleaning & Methodology
+2.1 Anomaly Handling
+The Installs column was parsed to correct string formatting issues and structural data corruption:
+
+Format Normalization: Stripped non-numeric characters (commas , and plus signs +) and cast values to integer types.
+
+Corrupt Row Removal: Removed invalid entries (such as Row 10472 where an unshifted Category caused Installs to evaluate to "Free").
+
+Python
+# Cleaning Pipeline
+df = df[df['Installs'] != 'Free']
+df['Installs_Clean'] = (
+    df['Installs']
+    .astype(str)
+    .str.replace('+', '', regex=False)
+    .str.replace(',', '', regex=False)
+    .astype(int)
+)
+
+3. Install Range Distribution
+Apps were grouped into 10 standard ordinal brackets spanning from 0 to over 1 Billion installs.
+
+Install Bracket	App Count	% of Dataset	Cumulative %
+0	15	0.1%	0.1%
+1 – 10	387	3.6%	3.7%
+10 – 100	719	6.6%	10.3%
+100 – 1K	913	8.4%	18.7%
+1K – 10K	1,489	13.7%	32.4%
+10K – 100K	1,674	15.4%	47.8%
+100K – 1M	1,570	14.5%	62.3%
+1M – 10M	2,118	19.5%	81.8%
+10M – 100M	1,321	12.2%	94.0%
+100M – 1B+	634	5.8%	100.0%
+4. Category Dominance Across Top Tiers
+When examining apps that achieved higher-tier scale, specific categories dominate distinct stages of the install funnel:
+
+           TOP CATEGORIES BY INSTALL TIER
+┌────────────────────────────────────────────────────────┐
+│ 1M - 10M       │ GAME (28%)  │ FAMILY (18%)│ TOOLS (8%)│
+├────────────────────────────────────────────────────────┤
+│ 10M - 100M     │ GAME (34%)  │ TOOLS (12%) │ PHOTO (9%)│
+├────────────────────────────────────────────────────────┤
+│ 100M - 1B+     │ COMM (22%)  │ TOOLS (18%) │ GAME (15%)│
+└────────────────────────────────────────────────────────┘
+Mid-Tier (1M – 10M Installs): Highly diversified. Driven primarily by consumer discretionary categories (GAME, FAMILY, FINANCE, and LIFESTYLE).
+
+High-Tier (10M – 100M Installs): Concentration narrows towards high-engagement products. GAME, TOOLS, and PHOTOGRAPHY make up over half of this tier.
+
+Hyper-Scale Tier (100M – 1B+ Installs): Dominated by infrastructural utilities and core social networks (COMMUNICATION, TOOLS, SOCIAL, VIDEO_PLAYERS).
+
+5. Strategic Insights & Recommendations
+The 1M Wall: The drop-off between 100K-1M and 1M-10M indicates that organic store discovery is insufficient to pass 1M installs. Marketing budget allocation should focus heavily on user acquisition (UA) campaigns when approaching 100K installs.
+
+Category Selection Risk: The FAMILY category exhibits high competition with low conversion into the 100M+ tier. Developers targeting scale should embed utility or social loop features (TOOLS or COMMUNICATION attributes) to extend lifetime scale potential.

@@ -1,0 +1,169 @@
+# User Story 5: Sentiment Analysis and Visualization
+
+## 1. User Story
+
+**As a data analyst, I want to analyze sentiment within the Google Play Store dataset so that I can understand the overall distribution of positive, neutral, and negative app ratings and identify sentiment trends over time.**
+
+## 2. Objective
+
+The original project requirement called for sentiment analysis of textual review data using a natural language processing (NLP) library such as NLTK, TextBlob, or VADER.
+
+However, the provided Google Play Store dataset does not contain a textual review column. Therefore, text-based NLP sentiment analysis could not be performed using the provided dataset.
+
+As an alternative, the `Rating` column was used as a proxy for sentiment. Each valid app rating was classified into one of three sentiment categories:
+
+* **Negative:** Rating below 3.0
+* **Neutral:** Rating from 3.0 to below 4.0
+* **Positive:** Rating from 4.0 to 5.0
+
+A new column named `Sentiment` was created to store these classifications.
+
+## 3. Data Preparation
+
+The `Rating` column was examined for missing and invalid values.
+
+The initial descriptive statistics showed a maximum rating of **19.0**, which is outside the valid Google Play rating range of 1.0 to 5.0.
+
+The invalid rating was removed before performing the sentiment classification.
+
+After cleaning, the dataset contained **9,366 valid ratings**, with ratings ranging from 1.0 to 5.0.
+
+The cleaned rating statistics were:
+
+* Mean: **4.19**
+* Minimum: **1.0**
+* Maximum: **5.0**
+
+## 4. Rating-Based Sentiment Classification
+
+The following classification rules were applied:
+
+| Rating Range | Sentiment |
+| ------------ | --------- |
+| 1.0–2.9      | Negative  |
+| 3.0–3.9      | Neutral   |
+| 4.0–5.0      | Positive  |
+
+The resulting classifications were stored in the new `Sentiment` column.
+
+## 5. Sentiment Distribution
+
+The analysis produced the following results:
+
+| Sentiment | Number of Apps | Percentage |
+| --------- | -------------: | ---------: |
+| Positive  |          7,368 |     78.67% |
+| Neutral   |          1,711 |     18.27% |
+| Negative  |            287 |      3.06% |
+| **Total** |      **9,366** |   **100%** |
+
+The results show that **Positive** was the dominant classification, representing 78.67% of the rated apps. Neutral classifications represented 18.27%, while Negative classifications represented only 3.06%.
+
+This indicates that the Google Play Store dataset contains a substantially larger proportion of highly rated apps than lower-rated apps.
+
+## 6. Visualization
+
+### Pie Chart
+
+A pie chart was created to show the proportion of Positive, Neutral, and Negative classifications.
+
+The chart demonstrates that the Positive category represents the largest portion of the dataset, followed by Neutral and then Negative.
+
+### Bar Chart
+
+A bar chart was created to compare the frequency of each sentiment category.
+
+The bar chart makes the difference between the three categories particularly clear. Positive classifications greatly outnumber both Neutral and Negative classifications.
+
+### Time-Series Analysis
+
+The `Last Updated` column was converted to a date format and the sentiment classifications were grouped by year.
+
+The results were:
+
+| Year | Negative | Neutral | Positive |
+| ---: | -------: | ------: | -------: |
+| 2010 |        0 |       0 |        1 |
+| 2011 |        0 |       7 |        8 |
+| 2012 |        1 |       8 |       12 |
+| 2013 |        1 |      28 |       65 |
+| 2014 |        7 |      55 |      128 |
+| 2015 |       14 |     117 |      257 |
+| 2016 |       31 |     190 |      430 |
+| 2017 |       80 |     343 |    1,075 |
+| 2018 |      153 |     963 |    5,392 |
+
+The time-series analysis shows a substantial increase in the number of apps represented in all three sentiment categories over time, particularly in 2018.
+
+The increase should not automatically be interpreted as an increase in positive sentiment. The number of apps represented in the dataset also increases substantially in the later years. Therefore, the increase in sentiment counts may primarily reflect the larger number of apps available in the dataset during those years.
+
+## 7. Key Findings
+
+Several findings emerged from the analysis:
+
+1. **Positive ratings dominate the dataset.**
+   Nearly four out of every five valid app ratings were classified as Positive.
+
+2. **Negative ratings represent a relatively small portion of the dataset.**
+   Only 3.06% of valid ratings were classified as Negative.
+
+3. **Neutral ratings make up a smaller but significant portion of the dataset.**
+   Approximately 18.27% of valid ratings were classified as Neutral.
+
+4. **The number of apps increases substantially over time.**
+   The largest number of apps in the dataset appears in 2018, resulting in substantially higher counts for all three sentiment categories.
+
+5. **The time-series results should be interpreted using counts carefully.**
+   Because the number of apps varies considerably by year, higher sentiment counts in later years do not necessarily indicate a change in the overall sentiment of app users.
+
+## 8. Limitations
+
+There are several important limitations to this analysis.
+
+### Lack of Textual Review Data
+
+The most significant limitation is that the provided Google Play Store dataset does not contain textual review data. Consequently, the original NLP requirement could not be performed using the supplied dataset.
+
+No NLTK, TextBlob, or VADER text-based sentiment model was used for the final analysis.
+
+### Rating Is Only a Proxy for Sentiment
+
+The `Rating` column was used as a proxy for sentiment. A numerical rating does not necessarily explain **why** a user feels positively or negatively about an application.
+
+For example, a user may give an app a low rating because of a technical problem, pricing issue, advertising, or a missing feature. The rating alone cannot identify the reason behind the user's opinion.
+
+### Classification Thresholds Are Analytical Choices
+
+The boundaries used to classify ratings were:
+
+* 1.0–2.9 = Negative
+* 3.0–3.9 = Neutral
+* 4.0–5.0 = Positive
+
+These thresholds provide a consistent classification system, but they are an analytical convention rather than results generated by an NLP model.
+
+### Time-Series Counts
+
+The number of apps varies considerably by year. Therefore, comparing raw sentiment counts across years can be misleading.
+
+A future analysis could compare **sentiment percentages by year** instead of only comparing the number of apps in each category.
+
+### Missing Ratings
+
+The original dataset contains missing values in the `Rating` column. Only apps with valid ratings could be included in this analysis.
+
+## 9. Conclusion
+
+The rating-based sentiment analysis found that the majority of rated apps in the Google Play Store dataset were classified as Positive. Of the 9,366 valid ratings analyzed, **78.67% were Positive, 18.27% were Neutral, and 3.06% were Negative**.
+
+The analysis also showed a substantial increase in the number of apps represented in the dataset over time, with 2018 containing the largest number of observations.
+
+Overall, the results suggest that the dataset is heavily weighted toward positively rated applications. However, these findings should be interpreted as **rating-based sentiment classification rather than text-based NLP sentiment analysis**.
+
+Because the dataset does not contain written reviews, the analysis cannot determine the specific reasons users felt positively or negatively about an application. A future project containing actual written reviews could use NLP techniques such as VADER, TextBlob, or NLTK to analyze the language used by users and provide a more detailed understanding of customer sentiment.
+
+## 10. Recommendation for Future Analysis
+
+If textual review data becomes available, the next stage of the analysis should apply NLP techniques to the written reviews. This would allow sentiment to be determined from the actual language used by users rather than relying solely on numerical ratings.
+
+Combining **rating-based sentiment with text-based NLP sentiment** would provide a more complete picture of user satisfaction and could reveal differences between what users rate and what they actually say in their reviews.

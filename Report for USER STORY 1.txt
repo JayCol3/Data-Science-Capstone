@@ -1,0 +1,43 @@
+Report for USER STORY 1
+iNTRODUCTION
+A.  I imported the Google Play Store from the provided CSV into a Jupyter Notebook file. 
+DATA
+B. Next I wanted to check the dataset for missing values:
+	App                  0
+Category             0          App                  0
+Category             0
+Rating            1465
+Reviews              0
+Size                 0
+Installs             0
+Type                 1
+Price                0
+Content Rating       1
+Genres               0
+Last Updated         0
+Current Ver          8
+Android Ver          3
+INCLUDING DUPLICATES!!!!
+dtype: int64
+Rating            1474
+Reviews              0
+Size                 0
+Installs             0
+Type                 1
+Price                0
+Content Rating       1
+Genres               0
+Last Updated         0
+Current Ver          8
+Android Ver          3
+dtype: int64
+METHOD: Pandas notebook was used for analysis:
+	google_data.dtypes, errors='coerce'category_summary = google_data.groupby('Category').agg(
+    Number_of_Apps=('App', 'count'),
+    Average_Rating=('Rating', 'mean'),
+    Total_Installs=('Installs', 'sum')
+)
+ANALYSIS: The dataset has 10,358 rows, and 13 columns, the ratings columns had 1465, and was filled with the median. Ending with a clean dataset.
+CONCLUSION: The dataset so far only has a few duplicate rows. 
+
+   
